@@ -35,5 +35,5 @@ class Liburing(ConanFile):
 
     def package_info(self):
         if self.settings.os == "Linux":
-            self.cpp_info.libs = ["liburing"]
+            self.cpp_info.libs = ["uring"]
 
