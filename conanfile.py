@@ -13,7 +13,7 @@ class Liburing(ConanFile):
 
     @property
     def source_dir(self):
-        return f'liburing-liburing-{self.version}/src/'
+        return f'liburing-liburing-{self.version}/'
 
 
     def source(self):
@@ -21,8 +21,10 @@ class Liburing(ConanFile):
         tools.get(package_url)
 
     def build(self):
-        env_build = AutoToolsBuildEnvironment(self)
-        env_build.make()
+        with tools.chdir(self.source_dir):
+            autobuild = AutoToolsBuildEnvironment(self)
+            autobuild.configure()
+            autobuild.make()
 
     def package(self):
         self.copy("*.h", dst="include", src=self.source_dir)
