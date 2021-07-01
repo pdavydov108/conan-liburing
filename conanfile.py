@@ -30,7 +30,7 @@ class Liburing(ConanFile):
 
     def package(self):
         if self.settings.os == "Linux":
-            self.copy("*.h", dst="include", src=self.source_dir)
+            self.copy("*.h", dst="include/", src=f'{self.source_dir}/src/include')
             self.copy("*.a", dst="lib", src=self.source_dir, keep_path=False)
 
     def package_info(self):
