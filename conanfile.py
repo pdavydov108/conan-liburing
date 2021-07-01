@@ -17,19 +17,23 @@ class Liburing(ConanFile):
 
 
     def source(self):
-        package_url = f'{self.url}/archive/refs/tags/liburing-{self.version}.tar.gz'
-        tools.get(package_url)
+        if self.settings.os == "Linux":
+            package_url = f'{self.url}/archive/refs/tags/liburing-{self.version}.tar.gz'
+            tools.get(package_url)
 
     def build(self):
-        with tools.chdir(self.source_dir):
-            autobuild = AutoToolsBuildEnvironment(self)
-            autobuild.configure()
-            autobuild.make()
+        if self.settings.os == "Linux":
+            with tools.chdir(self.source_dir):
+                autobuild = AutoToolsBuildEnvironment(self)
+                autobuild.configure()
+                autobuild.make()
 
     def package(self):
-        self.copy("*.h", dst="include", src=self.source_dir)
-        self.copy("*.a", dst="lib", src=self.source_dir, keep_path=False)
+        if self.settings.os == "Linux":
+            self.copy("*.h", dst="include", src=self.source_dir)
+            self.copy("*.a", dst="lib", src=self.source_dir, keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["liburing"]
+        if self.settings.os == "Linux":
+            self.cpp_info.libs = ["liburing"]
 
